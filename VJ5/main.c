@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <conio.h>
 
 typedef struct
 {
@@ -44,17 +43,44 @@ void fixdown(PriorityQueue *array, int r)
     }
 }
 
-int add()
+int add(PriorityQueue *array, int *i, int el)
 {
-
+    array[*i].priority = el;
+    fixup(array, (*i));
+    (*i)++;
 }
 
-int remove()
+int delete(PriorityQueue *array, int*i)
 {
+    array[0].priority = array[(*i) - 1].priority;
+    array[(*i) - 1].priority = 0;
+    fixdown(array, 0);
+    (*i)--;
+}
 
+void print(PriorityQueue *array, int i)
+{
+    int j;
+    for (j = 0; j < i; j++)
+	{
+		printf("%d ", array[j].priority);
+	}
+	printf("\n");
 }
 
 int main()
 {
-    
+    PriorityQueue array[10000];
+    int i = 0;
+    add(array, &i, 10);
+    add(array, &i, 30);
+    add(array, &i, 20);
+    add(array, &i, 15);
+    add(array, &i, 25);
+    add(array, &i, 45);
+    add(array, &i, 40);
+    add(array, &i, 5);
+    print(array, i);
+    delete(array, &i);
+    print(array, i);
 }
