@@ -19,26 +19,39 @@ void fixup(PriorityQueue *array, int c)
     }
 }
 
-void fixdown(PriorityQueue *array, int r)
+void fixdown(PriorityQueue *array, int r, int *i)
 {
     int x;
     int l = 2 * r + 1;
     int d = 2 * r + 2;
-    if (array[r].priority < array[l].priority && array[r].priority < array[d].priority)
+    if (l >= *i && r >= *i)
+    {
+        return;
+    }
+    else if (r >= *i && l < *i)
+    {
+        if(array[l].priority > array[r].priority)
+        {
+            x = array[r].priority;
+            array[r].priority = array[l].priority;
+            array[l].priority = x;
+        }
+    }
+    else if (array[r].priority < array[l].priority && array[r].priority < array[d].priority)
     {
         if (array[l].priority > array[d].priority)
         {
             x = array[r].priority;
             array[r].priority = array[l].priority;
             array[l].priority = x;
-            fixdown(array, l);
+            fixdown(array, l, i);
         }
         else
         {
             x = array[r].priority;
             array[r].priority = array[d].priority;
             array[d].priority = x;
-            fixdown(array, d);
+            fixdown(array, d, i);
         }
     }
 }
@@ -54,7 +67,7 @@ int delete(PriorityQueue *array, int*i)
 {
     array[0].priority = array[(*i) - 1].priority;
     array[(*i) - 1].priority = 0;
-    fixdown(array, 0);
+    fixdown(array, 0, i);
     (*i)--;
 }
 
@@ -72,14 +85,16 @@ int main()
 {
     PriorityQueue array[10000];
     int i = 0;
-    add(array, &i, 10);
-    add(array, &i, 30);
-    add(array, &i, 20);
-    add(array, &i, 15);
+    add(array, &i, 85);
+    add(array, &i, 60);
+    add(array, &i, 80);
     add(array, &i, 25);
-    add(array, &i, 45);
-    add(array, &i, 40);
-    add(array, &i, 5);
+    add(array, &i, 30);
+    add(array, &i, 70);
+    add(array, &i, 50);
+    add(array, &i, 23);
+    add(array, &i, 10);
+    add(array, &i, 20);
     print(array, i);
     delete(array, &i);
     print(array, i);
