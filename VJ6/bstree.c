@@ -115,11 +115,11 @@ int Rijeci(BSTree bst)
 	{
 		return 0;
 	}
-	if (strlen(bst->word) > 5)
+	else if (strlen(bst->word) > 5)
 	{
 		return Rijeci(bst->right) + Rijeci(bst->left) + 1;
 	}
-	if (strlen(bst->word) <= 5)
+	else if (strlen(bst->word) <= 5)
 	{
 		return Rijeci(bst->right) + Rijeci(bst->left);
 	}
