@@ -30,7 +30,7 @@ void fillTable(HashTable *dict)
 	FILE *fd;
 	char buffer[1024];
 				
-	fd = fopen("big.txt", "rt");
+	fd = fopen("liar.txt", "rt");
 	if(fd == NULL)
 	{
 		printf("Error opening file.\n");
@@ -62,4 +62,5 @@ void main()
 		printf("Size = %d, load factor = %f, time = %f\n", dict->size, (float)dict->load / dict->size, (et-st)/CLOCKS_PER_SEC);
 		DeleteTable(dict);
 	}
+	system("pause");
 }

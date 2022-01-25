@@ -39,7 +39,22 @@ void Insert(HashTable *ht, char *word)
 	if (ht -> table[index] != NULL)
 	{
 		Bin* head = ht->table[index];
-		dodaj_glavu(&head, word);
+		Bin* new = malloc(sizeof(Bin*));
+		new -> word = word;
+		new -> next = NULL;
+		if (head == NULL)
+		{
+			head = new;
+		}
+		else
+		{
+			Bin* tmp = head;
+			while (tmp->next!=NULL)
+			{
+				tmp = tmp->next;
+			}
+			tmp -> next = new;
+		}
 		ht->table[index] = head;
 		ht->load++;
 	}
@@ -47,7 +62,22 @@ void Insert(HashTable *ht, char *word)
 	{
 		ht->table[index] = malloc(sizeof(Bin*));
 		Bin* head = NULL;
-		dodaj_glavu(&head, word);
+		Bin* new = malloc(sizeof(Bin*));
+		new -> word = word;
+		new -> next = NULL;
+		if (head == NULL)
+		{
+			head = new;
+		}
+		else
+		{
+			Bin* tmp = head;
+			while (tmp->next!=NULL)
+			{
+				tmp = tmp->next;
+			}
+			tmp -> next = new;
+		}
 		ht->table[index] = head;
 		ht->load++;
 	}
