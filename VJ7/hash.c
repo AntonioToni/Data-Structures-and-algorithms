@@ -10,13 +10,7 @@ HashTable *NewTable(int size)
 	HashTable *new = (HashTable*)malloc(sizeof(HashTable));
 	new -> size = size;
 	new -> load = 0;
-	new -> table = (Bin**)malloc(new->size * sizeof(Bin*));
-	int i;
-	for (i = 0; i < new -> size; i++)
-	{
-		new ->table[i] = NULL;
-	}
-	return new;
+	new -> table = (Bin**)calloc(new->size, sizeof(Bin*));
 }
 
 unsigned int hash(char *word)
