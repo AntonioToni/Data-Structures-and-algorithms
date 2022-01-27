@@ -41,7 +41,9 @@ void fillTable(HashTable *dict)
 	{
 		//printf("%s\n", buffer);
 		if(!Get(dict, buffer))
+		{
 			Insert(dict, strdup(buffer));
+		}
 	}
 
 	fclose(fd);
@@ -62,5 +64,5 @@ void main()
 		printf("Size = %d, load factor = %f, time = %f\n", dict->size, (float)dict->load / dict->size, (et-st)/CLOCKS_PER_SEC);
 		DeleteTable(dict);
 	}
-	system("pause");
+	getchar();
 }

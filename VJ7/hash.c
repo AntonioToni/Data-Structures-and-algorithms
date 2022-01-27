@@ -5,12 +5,21 @@
 
 #define HCONST 3567892
 
+void dodaj_glavu(Bin** head, char *word)
+{
+	Bin* new = malloc(sizeof(Bin*));
+	new->word = word;
+	new->next = *head;
+	*head = new;
+}
+
 HashTable *NewTable(int size)
 {
 	HashTable *new = (HashTable*)malloc(sizeof(HashTable));
 	new -> size = size;
 	new -> load = 0;
 	new -> table = (Bin**)calloc(new->size, sizeof(Bin*));
+	return new;
 }
 
 unsigned int hash(char *word)
@@ -30,75 +39,41 @@ void Insert(HashTable *ht, char *word)
 	// dodaje novu rijec u listu na odgovarajucem pretincu
 	unsigned int key = hash(word);
 	int index = key % ht -> size;
-	if (ht -> table[index] != NULL)
-	{
-		Bin* head = ht->table[index];
-		Bin* new = malloc(sizeof(Bin*));
-		new -> word = word;
-		new -> next = NULL;
-		if (head == NULL)
-		{
-			head = new;
-		}
-		else
-		{
-			Bin* tmp = head;
-			while (tmp->next!=NULL)
-			{
-				tmp = tmp->next;
-			}
-			tmp -> next = new;
-		}
-		ht->table[index] = head;
-		ht->load++;
-	}
-	else
-	{
-		ht->table[index] = malloc(sizeof(Bin*));
-		Bin* head = NULL;
-		Bin* new = malloc(sizeof(Bin*));
-		new -> word = word;
-		new -> next = NULL;
-		if (head == NULL)
-		{
-			head = new;
-		}
-		else
-		{
-			Bin* tmp = head;
-			while (tmp->next!=NULL)
-			{
-				tmp = tmp->next;
-			}
-			tmp -> next = new;
-		}
-		ht->table[index] = head;
-		ht->load++;
-	}
+	Bin* head = ht->table[index];
+	dodaj_glavu(&head, word);
+	ht->table[index] = head;
+	ht->load++;
 }
 
 int Get(HashTable *ht, char *word)
 {
-	int i;
-	for (int i = 0; i < ht->size; i++)
+	unsigned int key = hash(word);
+	int index = key % ht->size;
+	Bin* temp = ht->table[index];
+	while (temp->next != NULL)
 	{
-		if (ht->table[i] == NULL)
-			return 0;
-		else if (strcmp(ht->table[i]->word,word)==0)
+		if (strcmp(temp->word, word) == 0)
 		{
 			return 1;
 		}
-		else
-		{
-			return 0;
-		}
+		temp = temp->next;
 	}
-	return 0;
 }
 
 void DeleteTable(HashTable *ht)
 {
 	// brise cijelu hash tablicu (liste na svim pretincima (rijec i element liste), pretince ...)
+	for (int i = 0; i < ht->size; i++)
+	{
+		Bin* temp = ht->table[i];
+		while (temp != NULL)
+		{
+			Bin* brisi = temp;
+			temp = temp->next;
+			free(brisi->word);
+			free(brisi);
+		}
+	}
 	free(ht->table);
 	free(ht);
 }
